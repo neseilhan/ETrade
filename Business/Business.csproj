@@ -5,10 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Enums\" />
-    <Folder Include="Models\Filters\" />
-    <Folder Include="Models\Reports\" />
-    <Folder Include="Services\Bases\" />
+    <ProjectReference Include="..\AppCore\AppCore.csproj" />
   </ItemGroup>
 
 </Project>
