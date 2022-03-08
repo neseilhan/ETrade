@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\" />
-    <Folder Include="Enums\" />
+    <ProjectReference Include="..\AppCore\AppCore.csproj" />
   </ItemGroup>
 
 </Project>
