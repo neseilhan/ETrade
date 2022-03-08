@@ -12,7 +12,7 @@ namespace DataAccess.EntityFramework.Contexts
         public DbSet<Country> Countries { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<UserDetail> UserDetails { get; set; }"
+        public DbSet<UserDetail> UserDetails { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<ProductOrder> ProductOrders { get; set; }
 
@@ -20,9 +20,9 @@ namespace DataAccess.EntityFramework.Contexts
         {
             // Code-First yaklaşımı üzerinden veritabanını oluşturabilmek için geçici olarak tanımlanmıştır.
             // Eğer MVC uygulama projesi oluşturulursa ve bu projede appsettings.json dosyasında connection string tanımlanırsa aşağıdaki satıra gerek yoktur.
-            //ConnectionConfig.ConnectionString = "server=.\\SQLEXPRESS;database=BA_ETradeCore;user id=sa;password=sa;multipleactiveresultsets=true;";
+            ConnectionConfig.ConnectionString = "server=.\\SQLEXPRESS;database=ETrade;user id=sa;password=sa;multipleactiveresultsets=true;";
 
-            optionsBuilder.UseSqlServer(ConnectionConfig.ConnectionString);
+            //optionsBuilder.UseSqlServer(ConnectionConfig.ConnectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
