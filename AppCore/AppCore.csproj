@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Business\Models\JsonWebToken\" />
-    <Folder Include="Business\Models\Results\" />
-    <Folder Include="Business\Models\Paging\" />
-    <Folder Include="Business\Models\Ordering\" />
-    <Folder Include="Business\Services\Bases\" />
     <Folder Include="Business\Utils\JsonWebToken\Bases\" />
     <Folder Include="Business\Validations\" />
     <Folder Include="DataAccess\Bases\EntityFramework\" />

@@ -11,6 +11,16 @@
 
   <ItemGroup>
     <Folder Include="Settings\" />
+    <Folder Include="Views\Accounts\" />
+    <Folder Include="Views\Cart\" />
+    <Folder Include="Views\Categories\" />
+    <Folder Include="Views\Cities\" />
+    <Folder Include="Views\Countries\" />
+    <Folder Include="Views\Users\" />
+    <Folder Include="Views\Roles\" />
+    <Folder Include="Views\ProductsReportAjax\" />
+    <Folder Include="Views\Products\" />
+    <Folder Include="Views\Orders\" />
   </ItemGroup>
 
 </Project>
