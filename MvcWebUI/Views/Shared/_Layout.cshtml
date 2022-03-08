@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-Trade | @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="~/lib/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker3.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/css/main.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>E-Trade</h3>
+            </div>
+            <ul class="list-unstyled components">
+                <li class="nav-item">
+                    <a class="a-sidebar" href="#"> Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="a-sidebar" href="#"> Categories</a>
+                </li>
+            </ul>
+            <ul class="list-unstyled admin">
+                <p>Admin</p>
+                <li class="nav-item">
+                    <a class="a-navbar" href="#"> Seed</a>
+                </li>
+            </ul>
+        </nav>
+        <div id="content">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="#" id="sidebarCollapse" class="a-navbar" title="Close Menu">
+                            <i class="fas fa-list-alt"></i>
+                            <i id="i-collapse" class="fas fa-chevron-left"></i> Menu
+                        </a>
+                    </li>
+                </ul>
+                <button class="navbar-toggler navbar-button" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon navbar-span"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="a-navbar" href="#"> Home</a>
+                        </li>
+                    </ul>
+                    <div class="navbar-text">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="a-navbar" href="#"> Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="a-navbar" href="#"> Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <div class="div-navbar">
+                                    <span class="s-navbar"> UserName</span>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="a-navbar" href="#"> Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div class="container">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/popper.js/umd/popper.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/font-awesome/js/all.min.js"></script>
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/lib/bootstrap-datepicker/locales/bootstrap-datepicker.tr.min.js"></script>
+    <script src="~/js/datatables.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/main.js"></script>
+    @RenderSection("Scripts", required: false)
+    <partial name="_ValidationScriptsPartial" />
+</body>
+</html>
