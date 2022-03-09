@@ -22,15 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Cities\" />
-    <Folder Include="Views\Countries\" />
-    <Folder Include="Views\Users\" />
-    <Folder Include="Views\Roles\" />
-    <Folder Include="Views\ProductsReportAjax\" />
-    <Folder Include="Views\Orders\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\AppCore\AppCore.csproj" />
     <ProjectReference Include="..\Business\Business.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />

@@ -1,8 +1,11 @@
-﻿@{
-    ViewData["Title"] = "Home";
-}
+﻿@{ ViewData["Title"] = "Home"; }
 
 <div class="text-left">
-    <h1 class="display-4">E-Trade</h1>
-    <p>Welcome.</p>
+    <h1 class="display-4">@AppSettings.Title</h1>
+    @{ string userName = "";
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        userName = User.Identity.Name;
+                    } }
+    <p>Welcome @userName</p>
 </div>

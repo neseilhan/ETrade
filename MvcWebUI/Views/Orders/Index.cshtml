@@ -1,0 +1,185 @@
+﻿@model OrdersIndexViewModel
+
+@{ ViewData["Title"] = "Order List"; }
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+@if (TempData["OrdersMessage"] != null)
+{
+<p class="bg-primary text-white">@TempData["OrdersMessage"]</p>}
+
+<form asp-action="Index" method="get" autocomplete="off">
+    <div class="row">
+        <div class="col-1">
+            @Html.DisplayNameFor(model => model.Filter.UserName)
+        </div>
+        <div class="col-5">
+            @Html.TextBoxFor(model => model.Filter.UserName, new { @class = "form-control" })
+        </div>
+        <div class="col-1">
+            @Html.DisplayNameFor(model => model.Filter.OrderStatusValues)
+        </div>
+        <div class="col-5">
+            @Html.ListBoxFor(model => model.Filter.OrderStatusValues, Model.OrderStatusMultiSelectList, new { @class = "form-control listbox" })
+        </div>
+    </div>
+    <div class="row row-paddingtop">
+        <div class="col-1">
+            <label asp-for="Filter.DateBeginText"></label>
+        </div>
+        <div class="col-5">
+            <div class="input-group">
+                <input asp-for="Filter.DateBeginText" class="form-control date" />
+                <span class="input-group-text">-</span>
+                <input asp-for="Filter.DateEndText" class="form-control date" />
+            </div>
+        </div>
+        <div class="col-1">
+            <label asp-for="Filter.OrderId"></label>
+        </div>
+        <div class="col-5">
+            <input asp-for="Filter.OrderId" class="form-control" />
+        </div>
+    </div>
+    <div class="row row-paddingtop">
+        <div class="offset-1 col-11">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+            &nbsp;&nbsp;&nbsp;
+            <a asp-action="Index" class="btn btn-info"><i class="fas fa-sync"></i> Clear</a>
+        </div>
+    </div>
+</form>
+
+<br />
+@if (Model.Orders != null && Model.Orders.Count > 0)
+{
+<div style="width: 100%; height: 450px; overflow-y: auto; border-style: solid; border-width: 1px;">
+    <table id="orders" class="table" style="width: 100%;">
+        <thead>
+            <tr>
+                <th style="width: 8%;">
+                    @Html.DisplayNameFor(model => model.Orders.FirstOrDefault().OrderId)
+                </th>
+                <th style="width: 8%;">
+                    @Html.DisplayNameFor(model => model.Orders.FirstOrDefault().ProductOrderJoin.Product.UnitPriceText)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Orders.FirstOrDefault().DateText)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Orders.FirstOrDefault().Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Orders.FirstOrDefault().User.UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Orders.FirstOrDefault().ProductOrderJoin.Product.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Orders.FirstOrDefault().ProductOrderJoin.Product.ExpirationDateText)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Orders.FirstOrDefault().ProductOrderJoin.Product.Category.Name)
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Orders)
+            {
+<tr class="@item.OrderColor">
+    <td>
+        @Html.DisplayFor(model => item.OrderId)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.ProductOrderJoin.Product.UnitPriceText)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.DateText)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.Status)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.User.UserName)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.ProductOrderJoin.Product.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.ProductOrderJoin.Product.ExpirationDateText)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.ProductOrderJoin.Product.Category.Name)
+    </td>
+    <td>
+        @if (item.Status == Entities.Enums.OrderStatus.Received)
+        {
+@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+<a asp-action="Complete" asp-route-id="@item.Id" class="text-success" title="Complete Order"><i class="fas fa-lg fa-check-circle"></i></a>
+                            @:&nbsp;| &nbsp;
+                        }
+                        <a href="#" onclick="cancelOrder(@item.Id, '@item.OrderId');" class="text-danger" title="Cancel Order"><i class="fas fa-lg fa-times-circle"></i></a>}
+    </td>
+</tr>                }
+        </tbody>
+    </table>
+</div>
+                <div class="bg-dark" style="width: 100%;">
+                    <table id="total" class="table" style="width: 100%;">
+                        <tr class="text-white">
+                            <td style="width: 8%;">
+                                <b>Total Price</b>
+                            </td>
+                            <td>
+                                @{ double sum = Model.Orders.Sum(m => m.ProductOrderJoin.Product.UnitPrice); }
+                                $@sum
+                            </td>
+                        </tr>
+                    </table>
+                </div> }
+                            else
+                            {
+                <p class="bg-primary text-white">
+                    No orders found
+                </p>}
+
+@section Scripts
+{
+    <link href="~/lib/AlertifyJS/css/alertify.min.css" rel="stylesheet" />
+    <link href="~/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+    <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .row-paddingtop {
+            padding-top: 30px;
+        }
+    </style>
+
+    <script src="~/lib/AlertifyJS/alertify.min.js"></script>
+    <script src="~/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/lib/select2/js/select2.min.js"></script>
+    <script>function cancelOrder(id, orderId) {
+            alertify.confirm("Warning!",
+                "Are you sure do you want to cancel order with Order ID: " + orderId + "?",
+                function () { // OK
+                    window.location.href = "/Orders/Cancel/" + id;
+                },
+                function () { // Cancel
+
+                }
+            );
+        }
+        $(function(){
+            $('.date').datepicker({
+                todayBtn: "linked",
+                clearBtn: true,
+                orientation: "bottom auto",
+                autoclose: true,
+                todayHighlight: true
+            });
+            $(".listbox").select2();
+        });</script>
+}

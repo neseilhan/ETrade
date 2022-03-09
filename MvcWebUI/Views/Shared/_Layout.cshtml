@@ -3,34 +3,50 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>E-Trade | @ViewData["Title"]</title>
+    <title>@AppSettings.Title | @ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
-    <link href="~/lib/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
-    <link href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker3.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link href="~/css/main.css" rel="stylesheet" />
 </head>
 <body>
     <div class="wrapper">
         <nav id="sidebar">
-            <div class="sidebar-header">
-                <h3>E-Trade</h3>
+            <div class="sidebar-header div-header">
+                <a class="a-navbar" asp-action="Index" asp-controller="Home"><h5><i class="fas fa-shopping-basket"></i> @AppSettings.Title</h5></a>
             </div>
             <ul class="list-unstyled components">
                 <li class="nav-item">
-                    <a class="a-sidebar" href="#"> Products</a>
-                </li>
-                <li class="nav-item">
-                    <a class="a-sidebar" href="#"> Categories</a>
+                    @*<a class="a-sidebar" asp-action="Index" asp-controller="Products"><i class="fas fa-clipboard-list"></i> Products</a>*@
+                    <a href="/Products/Index" class="a-sidebar"><i class="fas fa-clipboard-list"></i> Products</a>
                 </li>
             </ul>
-            <ul class="list-unstyled admin">
-                <p>Admin</p>
-                <li class="nav-item">
-                    <a class="a-navbar" href="#"> Seed</a>
-                </li>
-            </ul>
+            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+            {
+<ul class="list-unstyled admin">
+    <p>Domains</p>
+    <li class="nav-item">
+        <a class="a-sidebar" asp-action="Index" asp-controller="Categories"><i class="fas fa-bars"></i> Categories</a>
+    </li>
+    <li class="nav-item">
+        <a class="a-sidebar" asp-action="Index" asp-controller="Countries"><i class="fas fa-bars"></i> Countries</a>
+    </li>
+    <li class="nav-item">
+        <a class="a-sidebar" asp-action="Index" asp-controller="Cities"><i class="fas fa-bars"></i> Cities</a>
+    </li>
+    <li class="nav-item">
+        <a class="a-sidebar" asp-action="Index" asp-controller="Users"><i class="fas fa-bars"></i> Users</a>
+    </li>
+    <li class="nav-item">
+        <a class="a-sidebar" asp-action="Index" asp-controller="Roles"><i class="fas fa-bars"></i> Roles</a>
+    </li>
+</ul>
+                <ul class="list-unstyled admin">
+                    <p>Reports</p>
+                    <li class="nav-item">
+                        <a class="a-sidebar" asp-action="Index" asp-controller="ProductsReportAjax"><i class="fas fa-archive"></i> Products Report</a>
+                    </li>
+                </ul>            }
         </nav>
         <div id="content">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -49,25 +65,36 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="a-navbar" href="#"> Home</a>
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+                            {
+                <a class="a-navbar" asp-action="Index" asp-controller="Cart"><i class="fas fa-shopping-cart"></i> Cart</a>}
+                        </li>
+                        <li class="nav-item">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                <a class="a-navbar" asp-action="Index" asp-controller="Orders"><i class="far fa-credit-card"></i> Orders</a>}
                         </li>
                     </ul>
                     <div class="navbar-text">
                         <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
-                                <a class="a-navbar" href="#"> Register</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="a-navbar" href="#"> Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <div class="div-navbar">
-                                    <span class="s-navbar"> UserName</span>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="a-navbar" href="#"> Logout</a>
-                            </li>
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                <li class="nav-item">
+                    <a class="a-navbar" asp-action="Register" asp-controller="Accounts"><i class="far fa-save"></i> Register</a>
+                </li>
+                                <li class="nav-item">
+                                    <a class="a-navbar" asp-action="Login" asp-controller="Accounts"><i class="fas fa-sign-in-alt"></i> Login</a>
+                                </li> }
+                                            else
+                                            {
+                                <li class="nav-item">
+                                    <div class="div-navbar">
+                                        <span class="s-navbar"><i class="fas fa-user"></i> @User.Identity.Name</span>
+                                    </div>
+                                </li>
+                                                <li class="nav-item">
+                                                    <a class="a-navbar" asp-action="Logout" asp-controller="Accounts"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                                                </li>}
                         </ul>
                     </div>
                 </div>
@@ -82,10 +109,6 @@
     <script src="~/lib/popper.js/umd/popper.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/font-awesome/js/all.min.js"></script>
-    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
-    <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-    <script src="~/lib/bootstrap-datepicker/locales/bootstrap-datepicker.tr.min.js"></script>
-    <script src="~/js/datatables.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/main.js"></script>
     @RenderSection("Scripts", required: false)
