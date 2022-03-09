@@ -20,9 +20,9 @@ namespace DataAccess.EntityFramework.Contexts
         {
             // Code-First yaklaşımı üzerinden veritabanını oluşturabilmek için geçici olarak tanımlanmıştır.
             // Eğer MVC uygulama projesi oluşturulursa ve bu projede appsettings.json dosyasında connection string tanımlanırsa aşağıdaki satıra gerek yoktur.
-            ConnectionConfig.ConnectionString = "server=.\\SQLEXPRESS;database=ETrade;user id=sa;password=sa;multipleactiveresultsets=true;";
+            //ConnectionConfig.ConnectionString = "server=.\\SQLEXPRESS;database=ETradeDB;user id=sa;password=sa;multipleactiveresultsets=true;";
 
-            //optionsBuilder.UseSqlServer(ConnectionConfig.ConnectionString);
+            optionsBuilder.UseSqlServer(ConnectionConfig.ConnectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
