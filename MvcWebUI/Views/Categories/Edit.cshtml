@@ -1,0 +1,36 @@
+﻿@model CategoryModel
+
+@{ ViewData["Title"] = "Edit Category"; }
+
+<h1>@ViewBag.Title</h1>
+
+<partial name="_CreateEdit" model="Model" />
+
+<form id="deleteCategoryForm" asp-action="Delete" method="post">
+    <input asp-for="Id" type="hidden" />
+
+    @* 1. yöntem: form içerisinde submit butonu ile formu submit ederek delete post aksiyonunu çağırma *@
+    @*<button type="submit" id="deleteCategoryButton" class="btn btn-danger">Delete</button>*@
+
+</form>
+
+<div>
+
+    @* 2. yöntem: javascript ile formu submit ederek delete post aksiyonunu çağırma *@
+    <button id="deleteCategoryButton" class="btn btn-danger">Delete</button>
+
+    <br />
+    <br />
+    <a asp-action="Index">Back to Category List</a>
+</div>
+
+@* 2. yöntem: *@
+@section Scripts
+{
+    @* Burada silme için kullandığımız form yönteminin bir diğer ve kullanımı biraz daha zor alternatifi AJAX yöntemidir. *@
+    <script>$(() => { // eğer aşağıdaki kodda herhangi bir yerde this kullanılacaksa $(document).ready(function(){ }); kullanılmalıdır!
+            $("#deleteCategoryButton").click(function() {
+                $("#deleteCategoryForm").submit();
+            });
+        });</script>
+}
