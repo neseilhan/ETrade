@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Entities
 {
-    //[Table("Urunler")]
+    //[Table("Products")]
     public class Product : RecordBase
     {
         [Required]

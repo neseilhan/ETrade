@@ -52,6 +52,7 @@ namespace Business.Models
 
         [StringLength(255, ErrorMessage = "{0} must be maximum {1} characters!")]
         [DisplayName("Image")]
+
         public string ImageFileName { get; set; }
     }
 }

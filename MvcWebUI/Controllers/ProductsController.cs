@@ -35,16 +35,13 @@ namespace MvcWebUI.Controllers
             _categoryService = categoryService;
         }
 
-        // GET: Products
-        //public async Task<IActionResult> Index()
-        //{
-        //    var eTradeContext = _context.Products.Include(p => p.Category);
-        //    return View(await eTradeContext.ToListAsync());
-        //}
         [AllowAnonymous]
         //public IActionResult Index()
         public IActionResult Index(string message = null, int? id = null)
+
+           
         {
+
             var query = _productService.Query();
             var model = query.ToList();
             ViewData["ProductsMessage"] = message;
@@ -55,24 +52,6 @@ namespace MvcWebUI.Controllers
             //throw new Exception("Test Exception!");
         }
 
-        // GET: Products/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var product = await _context.Products
-        //        .Include(p => p.Category)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (product == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(product);
-        //}
         public IActionResult Details(int? id)
         {
             if (id == null)
@@ -94,12 +73,8 @@ namespace MvcWebUI.Controllers
             return View(model);
         }
 
-        // GET: Products/Create
-        //public IActionResult Create()
-        //{
-        //    ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
-        //    return View();
-        //}
+
+
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
@@ -108,24 +83,11 @@ namespace MvcWebUI.Controllers
             return View();
         }
 
-        // POST: Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        //public async Task<IActionResult> Create([Bind("Name,Description,UnitPrice,StockAmount,ExpirationDate,CategoryId,Id,Guid")] Product product)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(product);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-        //    return View(product);
-        //}
-        //public IActionResult Create(ProductModel product)
+
+
         public IActionResult Create(ProductModel product, IFormFile image) // .NET Core: IFormFile, .NET Framework: HttpPostedFileBase
         {
             Result productResult;
@@ -181,10 +143,8 @@ namespace MvcWebUI.Controllers
                     fileName = Guid.NewGuid() + fileExtension; // x345f-dert5-gfds2-6hjkl.jpg
 
                     filePath = Path.Combine("wwwroot", "files", "products", fileName); // .NET Core
-                    // .NET Framework: Server.MapPath("~/wwwroot/files/products/x345f-dert5-gfds2-6hjkl.jpg")
 
-                    // wwwroot/files/products/x345f-dert5-gfds2-6hjkl.jpg (sanal yol: virtual path)
-                    // D:\BilgeAdam\ETradeCoreBilgeAdam\MvcWebUI\wwwroot\files\products\x345f-dert5-gfds2-6hjkl.jpg (fiziksel yol: physical, absolute path)
+
                 }
                 product.ImageFileName = fileName;
 
@@ -197,25 +157,17 @@ namespace MvcWebUI.Controllers
                 {
                     if (saveFile)
                     {
-                        // .NET Core:
-                        //FileStream fileStream = new FileStream(filePath, FileMode.CreateNew);
-                        //image.CopyTo(fileStream);
-                        //fileStream.Dispose();
                         using (FileStream fileStream = new FileStream(filePath, FileMode.CreateNew))
                         {
                             image.CopyTo(fileStream);
                         }
 
-                        // .NET Framework:
-                        // image.SaveAs(filePath); // image: HttpPostedFileBase
                     }
 
                     //return RedirectToAction("Index");
                     return RedirectToAction(nameof(Index)); // nameof(Index) = "Index"
                 }
 
-                // error
-                //ViewBag.Message = productResult.Message;
                 ModelState.AddModelError("", productResult.Message);
 
                 categoryQuery = _categoryService.Query();
@@ -229,22 +181,6 @@ namespace MvcWebUI.Controllers
             return View(product);
         }
 
-        // GET: Products/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var product = await _context.Products.FindAsync(id);
-        //    if (product == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-        //    return View(product);
-        //}
         [Authorize(Roles = "Admin")]
         public IActionResult Edit(int? id)
         {
@@ -262,43 +198,9 @@ namespace MvcWebUI.Controllers
             return View(product);
         }
 
-        // POST: Products/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        //public async Task<IActionResult> Edit(int id, [Bind("Name,Description,UnitPrice,StockAmount,ExpirationDate,CategoryId,Id,Guid")] Product product)
-        //{
-        //    if (id != product.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(product);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!ProductExists(product.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-        //    return View(product);
-        //}
-        //public IActionResult Edit(ProductModel product)
         public IActionResult Edit(ProductModel product, IFormFile image)
         {
             Result productResult;
@@ -309,14 +211,14 @@ namespace MvcWebUI.Controllers
                 #region Dosya validasyonu
                 string fileName = null;
                 string fileExtension = null;
-                string filePath = null;
-                bool saveFile = false;
+                string filePath = null; //sunucuda dosyayı kaydedeceğim yol 
+                bool saveFile = false; //flag
                 if (image != null && image.Length > 0)
                 {
-                    fileName = image.FileName;
-                    fileExtension = Path.GetExtension(fileName);
-                    string[] appSettingsAcceptedImageExtensions = AppSettings.AcceptedImageExtensions.Split(',');
-                    bool acceptedImageExtension = false;
+                    fileName = image.FileName; //blabla.jpg
+                    fileExtension = Path.GetExtension(fileName); // .jpg
+                    string[] appSettingsAcceptedImageExtensions = AppSettings.AcceptedImageExtensions.Split(",");
+                    bool acceptedImageExtension = false; //flag
                     foreach (string appSettingsAcceptedImageExtension in appSettingsAcceptedImageExtensions)
                     {
                         if (fileExtension.ToLower() == appSettingsAcceptedImageExtension.ToLower().Trim())
@@ -411,36 +313,6 @@ namespace MvcWebUI.Controllers
             ViewBag.Categories = new SelectList(categoryQuery.ToList(), "Id", "Name", product.CategoryId);
             return View(product);
         }
-
-        // GET: Products/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var product = await _context.Products
-        //        .Include(p => p.Category)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (product == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(product);
-        //}
-
-        // POST: Products/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var product = await _context.Products.FindAsync(id);
-        //    _context.Products.Remove(product);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
 
         [HttpGet]
         //[Authorize(Roles = "Admin")]
